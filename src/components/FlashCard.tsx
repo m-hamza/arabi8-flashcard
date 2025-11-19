@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { Volume2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Flashcard } from "@/data/lessons";
+import { speakArabicText } from "@/utils/speechSynthesis";
 
 interface FlashCardProps {
   flashcard: Flashcard;
@@ -27,8 +29,20 @@ export const FlashCard = ({ flashcard, onMark }: FlashCardProps) => {
         <div className="absolute inset-0 backface-hidden">
           <div className="h-full bg-gradient-card rounded-2xl p-8 flex flex-col items-center justify-center shadow-card hover:shadow-hover transition-shadow">
             <div className="text-sm font-medium text-white/80 mb-4">کلمه عربی</div>
-            <div className="text-5xl font-bold text-white text-center mb-6" dir="rtl">
-              {flashcard.arabic}
+            <div className="flex items-center gap-4 mb-6">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  speakArabicText(flashcard.arabic);
+                }}
+                className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors backdrop-blur-sm group"
+                aria-label="تلفظ کلمه"
+              >
+                <Volume2 className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+              </button>
+              <div className="text-5xl font-bold text-white text-center" dir="rtl">
+                {flashcard.arabic}
+              </div>
             </div>
             <div className="text-sm text-white/60">برای دیدن ترجمه کلیک کنید</div>
           </div>
